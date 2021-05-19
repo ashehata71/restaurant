@@ -3,8 +3,11 @@ import 'package:meal_app/dummy_data.dart';
 
 class MealDetails extends StatelessWidget {
   static const routeName = 'MealDetail';
-  Widget setTitle(BuildContext context,String T)
-  {
+  final Function toggleFavorite, isFavorite;
+
+  MealDetails(this.toggleFavorite, this.isFavorite);
+
+  Widget setTitle(BuildContext context, String T) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Text(
@@ -14,12 +17,11 @@ class MealDetails extends StatelessWidget {
     );
   }
 
-  Widget setList(List<String> list)
-  {
+  Widget setList(List<String> list) {
     return Container(
       decoration: BoxDecoration(
         color: Color.fromRGBO(233, 30, 99, 0.2),
-        border: Border.all(color: Colors.pink,width: 2),
+        border: Border.all(color: Colors.pink, width: 2),
         borderRadius: BorderRadius.circular(15),
       ),
       margin: EdgeInsets.all(10),
@@ -29,16 +31,16 @@ class MealDetails extends StatelessWidget {
       child: ListView.builder(
         itemBuilder: (context, indx) {
           return Card(
-            elevation: 4,
-            color: Color.fromRGBO(255, 128, 128, 0.5),
-            child:Column(
+              elevation: 4,
+              color: Color.fromRGBO(255, 128, 128, 0.5),
+              child: Column(
                 children: [
                   ListTile(
-                    leading:CircleAvatar(
-                      child: Text("${indx+1}"),
+                    leading: CircleAvatar(
+                      child: Text("${indx + 1}"),
                       backgroundColor: Colors.pinkAccent,
                       radius: 15,
-                    ) ,
+                    ),
                     title: Text(
                       list[indx],
                       softWrap: true,
@@ -46,10 +48,8 @@ class MealDetails extends StatelessWidget {
                       style: Theme.of(context).textTheme.title,
                     ),
                   ),
-
                 ],
-              )
-          );
+              ));
         },
         itemCount: list.length,
       ),
@@ -80,9 +80,12 @@ class MealDetails extends StatelessWidget {
             setList(selectedMeal.ingredients),
             setTitle(context, "steps"),
             setList(selectedMeal.steps),
-
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: ()=>toggleFavorite(MealsID),
+        child: Icon(isFavorite(MealsID) ? Icons.star : Icons.star_border),
       ),
     );
   }
